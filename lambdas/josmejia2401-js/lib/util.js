@@ -19,6 +19,6 @@ exports.getTraceID = function (headers) {
     return headers["x-amzn-trace-id"] || headers["X-Amzn-Trace-Id"] || "unset";
 }
 
-exports.getAuthorization = function (headers) {
-    return headers?.Authorization || headers?.authorization || event.authorizationToken;
+exports.getAuthorization = function (event) {
+    return event.headers?.Authorization || event.headers?.authorization || event.authorizationToken;
 }

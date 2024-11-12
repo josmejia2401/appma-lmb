@@ -1,4 +1,4 @@
-import {
+const {
     JWT,
     logger,
     commonUtils,
@@ -6,7 +6,7 @@ import {
     responseHandler,
     listValues,
     globalException
-} from 'josmejia2401-js';
+} = require('josmejia2401-js');
 const constants = require('../lib/constants');
 
 exports.doAction = async function (event, context) {
@@ -26,14 +26,19 @@ exports.doAction = async function (event, context) {
                     ':password': {
                         'S': `${body.password}`
                     },
-                    ':recordStatus': {
+                    ':status': {
                         'N': `${listValues.findStatusById(1).id}`
                     }
                 },
+                expressionAttributeNames: {
+                    '#username': 'username',
+                    '#password': 'password',
+                    '#status': 'status'
+                },
                 projectionExpression: 'id, firstName, lastName, email, username',
-                filterExpression: 'username=:username AND password=:password AND recordStatus=:recordStatus',
+                filterExpression: '#username=:username AND #password=:password AND #status=:status',
                 limit: 1,
-                tableName: constants.TBL_USER
+                tableName: constants.TBL_USERS
             }, options);
             if (resultData.results.length === 0) {
                 return globalException.buildUnauthorized('Error al iniciar sesión; ID de usuario o contraseña son incorrectos');

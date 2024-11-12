@@ -1,4 +1,4 @@
-import {
+const {
     JWT,
     logger,
     commonUtils,
@@ -7,7 +7,7 @@ import {
     listValues,
     globalException,
     schemaValidator
-} from 'josmejia2401-js';
+} = require('josmejia2401-js');
 const constants = require('../lib/constants');
 const schema = require('../lib/schema');
 
@@ -18,12 +18,12 @@ exports.doAction = async function (event, _context) {
         if (event.pathParameters !== undefined && event.pathParameters !== null) {
             const pathParameters = event.pathParameters;
             const body = JSON.parse(event.body);
-            const authorization = commonUtils.getAuthorization(event.headers);
+            const authorization = commonUtils.getAuthorization(event);
             const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
                 requestId: traceID
             };
-            const errorBadRequest = schemaValidator.validatePayload(schema, body);
+            const errorBadRequest = schemaValidator.validatePayload(schema.schema, body);
             if (errorBadRequest) {
                 return errorBadRequest;
             }
@@ -43,7 +43,7 @@ exports.doAction = async function (event, _context) {
             }
             if (body.status !== undefined && body.status !== null) {
                 expressionAttributeNames["#status"] = "status";
-                expressionAttributeValues[":status"] = { "N": `${body.status}` };
+                expressionAttributeValues[":status"] = { "N": `${listValues.findStatusById(body.status).id}` };
                 updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #status=:status`;
             }
             await dynamoDBRepository.updateItem({

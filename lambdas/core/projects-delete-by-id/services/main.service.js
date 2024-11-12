@@ -1,13 +1,12 @@
-import {
+const {
     JWT,
     logger,
     commonUtils,
     dynamoDBRepository,
     responseHandler,
     globalException,
-} from 'josmejia2401-js';
+} = require('josmejia2401-js');
 const constants = require('../lib/constants');
-const schema = require('../lib/schema');
 
 exports.doAction = async function (event, _context) {
     const traceID = commonUtils.getTraceID(event.headers || {});
@@ -16,7 +15,7 @@ exports.doAction = async function (event, _context) {
 
         if (event.pathParameters !== undefined && event.pathParameters !== null) {
             const pathParameters = event.pathParameters;
-            const authorization = commonUtils.getAuthorization(event.headers);
+            const authorization = commonUtils.getAuthorization(event);
             const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
                 requestId: traceID

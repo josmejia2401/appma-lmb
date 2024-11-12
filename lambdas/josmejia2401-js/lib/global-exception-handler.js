@@ -50,6 +50,23 @@ exports.buildBadRequestError = function (message, stackTrace = [], errors = []) 
     };
 }
 
+exports.buildNotFoundError = function (message, stackTrace = [], errors = []) {
+    return {
+        statusCode: 404,
+        body: JSON.stringify({
+            message: message,
+            error: '¡Ups! No se encontró el registro...',
+            status: 404,
+            stackTrace: stackTrace,
+            errors: errors//[{ field: '', message: '' }]
+        }),
+        headers: {
+            "content-type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        }
+    };
+}
+
 exports.buildServiceUnavailableError = function () {
     return {
         statusCode: 503,

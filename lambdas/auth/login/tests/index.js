@@ -2,8 +2,8 @@ const { handler } = require('../index');
 async function test() {
     const event = {
         body: JSON.stringify({
-            username: 'Ester2819',
-            password: 'Jose1308'
+            username: '3105397699',
+            password: '1'
         })
     };
     const context = {

@@ -1,1 +1,2 @@
-export const TBL_PROJECTS = `tbl-${constants.constants.APP_NAME}-projects-${constants.constants.ENVIRONMENT}`;
+const constants = require('josmejia2401-js');
+exports.TBL_PROJECTS = `tbl-${constants.commonConstants.APP_NAME}-projects-${constants.commonConstants.ENVIRONMENT}`;

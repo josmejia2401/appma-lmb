@@ -2,7 +2,7 @@ variable "env" {
   description = "Ambiente donde será desplegado el componente. dev, qa y pdn"
   type        = string
   validation {
-    condition     = contains(["dev", "qa", "pdf"], var.env)
+    condition     = contains(["dev", "qa", "pdn"], var.env)
     error_message = "El ambiente no es válido"
   }
   nullable = false
@@ -10,7 +10,7 @@ variable "env" {
 }
 
 variable "app_name" {
-  description = "Nombre de la aplicación: Appointment Management"
+  description = "Nombre de la aplicación: AppMa"
   type        = string
   nullable    = false
   default     = "appma"
@@ -20,24 +20,12 @@ variable "domain" {
   description = "Dominio o unidad de negocio al cual pertenece el componente"
   type        = string
   validation {
-    condition     = contains(["security", "core"], var.domain)
+    condition     = contains(["security", "projects", "functionalities", "tasks", "transversal"], var.domain)
     error_message = "El dominio no es válido"
   }
   nullable = false
-  default  = "security"
+  default  = "transversal"
 }
-
-variable "subdomain" {
-  description = "Dominio o unidad de negocio al cual pertenece el componente"
-  type        = string
-  validation {
-    condition     = contains(["auth", "services", "clients", "employees"], var.subdomain)
-    error_message = "El sub dominio no es válido"
-  }
-  nullable = false
-  default  = "auth"
-}
-
 
 variable "lambda_source" {
   description = "Ubicación del código de la lambda"
@@ -63,7 +51,7 @@ variable "environment_variables" {
     ENVIRONMENT      = "dev"
     LOGGER_LEVEL     = "DEBUG"
     REGION           = "us-east-1"
-    APP_NAME         = "apma"
+    APP_NAME         = "appma"
     JTW_SECRET_VALUE = "secret"
     JWT_TOKEN_LIFE   = "1000"
   }
@@ -87,8 +75,8 @@ variable "tags" {
   type        = map(string)
   nullable    = true
   default = {
-    domain    = "security"
-    component = "login"
+    domain    = "transversal"
+    component = "apigateway"
     env       = "dev"
   }
 }

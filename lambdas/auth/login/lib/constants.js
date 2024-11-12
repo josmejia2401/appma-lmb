@@ -1,2 +1,3 @@
-export const TBL_USER = `tbl-${constants.constants.APP_NAME}-users-${constants.constants.ENVIRONMENT}`;
-export const TBL_TOKEN = `tbl-${constants.constants.APP_NAME}-token-${constants.constants.ENVIRONMENT}`;
+const constants = require('josmejia2401-js');
+exports.TBL_USERS = `tbl-${constants.commonConstants.APP_NAME}-users-${constants.commonConstants.ENVIRONMENT}`;
+exports.TBL_TOKEN = `tbl-${constants.commonConstants.APP_NAME}-token-${constants.commonConstants.ENVIRONMENT}`;

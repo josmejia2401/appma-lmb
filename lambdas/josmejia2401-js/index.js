@@ -1,12 +1,25 @@
-export * as dynamoDBRepository from './repository/dynamo-db.repository';
-export * as commonConstants from './lib/constants';
-export * as globalException from './lib/global-exception-handler';
-export * from './lib/jwt';
-export * as listValues from './lib/list-values';
-export * as logger from './lib/logger';
-export * as responseHandler from './lib/response-handler';
-export * as schemaValidator from './lib/schema';
-export * as commonUtils from './lib/util';
-export * as jsonwebtoken from 'jsonwebtoken';
-export * as clientdynamodb from '@aws-sdk/client-dynamodb';
-export * as joi from 'joi';
+const dynamoDBRepository = require('./repository/dynamo-db.repository');
+const commonConstants = require('./lib/constants');
+const globalException = require('./lib/global-exception-handler');
+const JWT = require('./lib/jwt');
+const listValues = require('./lib/list-values');
+const logger = require('./lib/logger');
+const responseHandler = require('./lib/response-handler');
+const schemaValidator = require('./lib/schema');
+const commonUtils = require('./lib/util');
+const jsonwebtoken = require('jsonwebtoken');
+const joi = require('joi');
+
+module.exports = {
+    dynamoDBRepository: dynamoDBRepository,
+    commonConstants: commonConstants.constants,
+    globalException: globalException,
+    JWT: JWT.JWT,
+    listValues: listValues,
+    logger: logger,
+    responseHandler: responseHandler,
+    schemaValidator: schemaValidator,
+    commonUtils: commonUtils,
+    jsonwebtoken: jsonwebtoken,
+    joi: joi
+  }

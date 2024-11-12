@@ -7,7 +7,7 @@ resource "aws_apigatewayv2_integration" "lambda_handler" {
 
 resource "aws_apigatewayv2_route" "post_handler" {
   api_id    = data.aws_apigatewayv2_api.selected.id
-  route_key = "POST /api/${var.domain}/${var.subdomain}/login"
+  route_key = "POST /api/v1/${var.domain}/login"
 
   target = "integrations/${aws_apigatewayv2_integration.lambda_handler.id}"
 }

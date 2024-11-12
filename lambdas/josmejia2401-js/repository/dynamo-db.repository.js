@@ -6,7 +6,6 @@ const {
     UpdateItemCommand,
     DeleteItemCommand
 } = require("@aws-sdk/client-dynamodb");
-
 const constants = require('../lib/constants');
 const logger = require('../lib/logger');
 const client = new DynamoDBClient({ apiVersion: "2012-08-10", region: constants.constants.REGION });
@@ -105,8 +104,8 @@ async function scan(payload = {
             results: [],
             lastEvaluatedKey: null
         };
-        let items;
         if (payload.limit !== undefined && payload.limit !== null) {
+            let items;
             do {
                 items = await client.send(new ScanCommand(params));
                 if (items.Items && items.Items.length > 0) {
@@ -116,13 +115,12 @@ async function scan(payload = {
                 resultData.lastEvaluatedKey = items.LastEvaluatedKey;
             } while (typeof items.LastEvaluatedKey !== "undefined" && resultData.results.length < payload.limit);
         } else {
-            items = await client.send(new ScanCommand(params));
+            const items = await client.send(new ScanCommand(params));
             if (items.Items && items.Items.length > 0) {
                 resultData.results.push(...buildItems(items.Items, options.schema));
             }
             resultData.lastEvaluatedKey = items.LastEvaluatedKey;
         }
-        resultData.results = items;
         logger.info({
             requestId: options.requestId,
             message: {

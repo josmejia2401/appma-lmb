@@ -70,4 +70,7 @@ class JWT {
     }
 }
 
-exports.JWT = JWT;
+module.exports = {
+    JWT
+};
+//exports.JWT = JWT;

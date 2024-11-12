@@ -1,4 +1,4 @@
-import { JWT, logger, commonUtils, dynamoDBRepository } from 'josmejia2401-js';
+const { JWT, logger, commonUtils, dynamoDBRepository } = require('josmejia2401-js');
 const constants = require('./utils/contants');
 
 exports.handler = async (event) => {

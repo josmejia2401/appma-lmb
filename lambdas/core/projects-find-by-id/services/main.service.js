@@ -1,11 +1,11 @@
-import {
+const {
     JWT,
     logger,
     commonUtils,
     dynamoDBRepository,
     responseHandler,
     globalException,
-} from 'josmejia2401-js';
+} = require('josmejia2401-js');
 const constants = require('../lib/constants');
 
 exports.doAction = async function (event, _context) {
@@ -14,7 +14,7 @@ exports.doAction = async function (event, _context) {
         logger.info({ message: JSON.stringify(event), requestId: traceID });
         if (event.pathParameters !== undefined && event.pathParameters !== null) {
             const pathParameters = event.pathParameters;
-            const authorization = commonUtils.getAuthorization(event.headers);
+            const authorization = commonUtils.getAuthorization(event);
             const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
                 requestId: traceID
@@ -30,12 +30,15 @@ exports.doAction = async function (event, _context) {
                 },
                 tableName: constants.TBL_PROJECTS
             }, options);
+            if (!response) {
+                return globalException.buildNotFoundError({});
+            }
             return responseHandler.successResponse({
                 id: response.id?.S,
                 userId: response.userId?.S,
                 name: response.name?.S,
                 description: response.description?.S,
-                status: Number(response.recordStatus?.N),
+                status: Number(response.status?.N),
                 createdAt: response.createdAt?.S,
             });
         } else {
