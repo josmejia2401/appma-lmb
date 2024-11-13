@@ -20,11 +20,11 @@ variable "domain" {
   description = "Dominio o unidad de negocio al cual pertenece el componente"
   type        = string
   validation {
-    condition     = contains(["security", "projects", "functionalities", "tasks", "transversal"], var.domain)
+    condition     = contains(["security", "projects", "functionalities", "tasks", "transversal", "users"], var.domain)
     error_message = "El dominio no es válido"
   }
   nullable = false
-  default  = "security"
+  default  = "users"
 }
 
 variable "lambda_index" {

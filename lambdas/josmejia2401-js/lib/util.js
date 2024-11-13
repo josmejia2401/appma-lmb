@@ -3,12 +3,12 @@ function randomIntFromInterval(min, max) {
 }
 
 function generateRowId() {
-    const shardId = randomIntFromInterval(1, 1000);
-    const customerEoch = Date.now();
-    let ts = new Date().getTime() - customerEoch;
-    ts = (ts * 64);
+    const shardId = randomIntFromInterval(1, 10_000);
+    //Date 1970-01-01T00:00:00.000Z
+    let ts = Date.now() - new Date(null).getTime();
+    ts = (ts * 67);
     ts = ts + shardId;
-    return parseInt((ts * 512) + Math.floor(Math.random() * 512));
+    return parseInt(ts);
 }
 
 exports.buildUuid = function () {
