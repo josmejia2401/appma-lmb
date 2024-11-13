@@ -20,5 +20,7 @@
     "dependencies": {
         "josmejia2401-js": "file:../../josmejia2401-js"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "@aws-sdk/client-dynamodb": "3.687.0"
+    }
 }

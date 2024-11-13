@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     };
     logger.info({ traceID: traceId, message: JSON.stringify(event) });
     try {
-        const authorization = commonUtils.getAuthorization(event.headers);
+        const authorization = commonUtils.getAuthorization(event);
         if (authorization && JWT.isValidToken(authorization)) {
             const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
@@ -42,8 +42,8 @@ exports.handler = async (event) => {
             }, options);
 
             if (resultData &&
-                tokenDecoded.keyid === resultData.userId &&
-                resultData.accessToken === JWT.getOnlyToken(authorization)) {
+                tokenDecoded.keyid === resultData.userId.S &&
+                resultData.accessToken.S === JWT.getOnlyToken(authorization)) {
                 response.isAuthorized = true;
             } else if (resultData && resultData.id) {
                 await dynamoDBRepository.deleteItem({

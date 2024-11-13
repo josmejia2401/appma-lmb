@@ -10,7 +10,7 @@ async function test() {
         "rawQueryString": "parameter1=value1&parameter1=value2&parameter2=value",
         "cookies": ["cookie1", "cookie2"],
         "headers": {
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMyIsImtleWlkIjoiMDRmNTM4NjMtMGFkOC00ZmU5LWEzNjMtYzViYjY3M2RhNGJiIiwiaWF0IjoxNzIxNjkzMDQ0LCJleHAiOjE3NTMyMjkwNDQsImF1ZCI6ImFwcG1hIiwiaXNzIjoiZmlyc3ROYW1lIiwic3ViIjoidXNlcm5hbWUzIiwianRpIjoiYzIyMzBkYTktYjdlOC00YTU4LTk0OGQtY2Y5ZWJlNWQ2YTBjIn0.QVFCAajT5eoZlqYrZELbomNIZIv_XH8Q8aztKoisf6w",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Impvc2UyNDAxIiwia2V5aWQiOiIxMTYwMTIxNjkyMjEyNTYiLCJpYXQiOjE3MzE1Mjc0ODksImV4cCI6MTc2MzA2MzQ4OSwiYXVkIjoiYXBwbWEiLCJpc3MiOiJKT1NFIiwic3ViIjoiam9zZTI0MDEiLCJqdGkiOiIxMTYwMTIzNDE3ODc2NTUifQ.2wGGHwUbZOgYfElvgLeC-8LiZTEfDG6HoMgchTr7YEo",
             "header2": "value2"
         },
         "queryStringParameters": {
