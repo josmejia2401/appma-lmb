@@ -29,6 +29,24 @@ exports.doAction = async function (event, _context) {
                 requestId: traceID,
                 schema: undefined
             };
+            const usernameExists = await dynamoDBRepository.scan({
+                tableName: constants.TBL_USERS,
+                expressionAttributeValues: {
+                    ":username": {
+                        "S": `${body.username}`
+                    },
+                },
+                expressionAttributeNames: {
+                    "#username": "username"
+                },
+                projectionExpression: undefined,
+                filterExpression: '#username=:username',
+                limit: 1,
+                lastEvaluatedKey: undefined,
+            }, options);
+            if (usernameExists.results.length > 0) {
+                return globalException.buildBadRequestError('Al parecer la solicitud no es correcta. Usuario invalido.');
+            }
             const response = await dynamoDBRepository.putItem({
                 tableName: constants.TBL_USERS,
                 item: {

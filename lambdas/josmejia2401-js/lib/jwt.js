@@ -57,6 +57,7 @@ class JWT {
             jwtid: value.tokenId,
             issuer: value.name,
         };
+        console.log("signing with data", options);
         const accessToken = sign({ username: value.username, keyid: value.id }, constants.constants.JWT.SECRET_VALUE, options);
         return accessToken;
     }
