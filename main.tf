@@ -36,6 +36,11 @@ module "projects_dynamodb" {
   source = "./modules/projects-dynamodb"
 }
 
+module "functionalities_dynamodb" {
+  source = "./modules/functionalities-dynamodb"
+}
+
+
 ####################
 # API GATEWAY
 ####################
@@ -133,5 +138,62 @@ module "api_gateway_resources_projects_find_all_or_filter" {
   depends_on = [
     module.api_gateway,
     module.projects_dynamodb
+  ]
+}
+
+
+
+####################
+# API GATEWAY RESOURCES functionalities
+####################
+
+
+module "api_gateway_resources_functionalities_create" {
+  source        = "./modules/apigateway-resources-functionalities-create"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.functionalities_dynamodb
+  ]
+}
+
+module "api_gateway_resources_functionalities_update" {
+  source        = "./modules/apigateway-resources-functionalities-update"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.functionalities_dynamodb
+  ]
+}
+
+module "api_gateway_resources_functionalities_delete" {
+  source        = "./modules/apigateway-resources-functionalities-delete"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.functionalities_dynamodb
+  ]
+}
+
+module "api_gateway_resources_functionalities_find_by_id" {
+  source        = "./modules/apigateway-resources-functionalities-find-by-id"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.functionalities_dynamodb
+  ]
+}
+
+module "api_gateway_resources_functionalities_find_all_or_filter" {
+  source        = "./modules/apigateway-resources-functionalities-find-all-or-filter"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.functionalities_dynamodb
   ]
 }
