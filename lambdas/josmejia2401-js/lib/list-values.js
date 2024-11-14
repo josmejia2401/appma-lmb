@@ -10,7 +10,7 @@ const status = [
 ];
 exports.status = status;
 exports.findStatusById = function (id) {
-    return status.filter(p => p.id === id)[0];
+    return status.filter(p => p.id === Number(id))[0];
 }
 
 
