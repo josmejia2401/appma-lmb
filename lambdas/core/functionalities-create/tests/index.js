@@ -6,7 +6,7 @@ async function test() {
         },
         body: JSON.stringify({
             name: 'name',
-            description: 'description',
+            description: '',
             projectId: '116016571740733'
         })
     };
