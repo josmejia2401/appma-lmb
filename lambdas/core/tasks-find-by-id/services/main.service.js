@@ -1,5 +1,4 @@
 const {
-    JWT,
     logger,
     commonUtils,
     dynamoDBRepository,
@@ -14,8 +13,6 @@ exports.doAction = async function (event, _context) {
         logger.info({ message: JSON.stringify(event), requestId: traceID });
         if (event.pathParameters !== undefined && event.pathParameters !== null) {
             const pathParameters = event.pathParameters;
-            const authorization = commonUtils.getAuthorization(event);
-            const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
                 requestId: traceID
             };
@@ -24,8 +21,8 @@ exports.doAction = async function (event, _context) {
                     id: {
                         S: `${pathParameters.id}`
                     },
-                    userId: {
-                        S: `${tokenDecoded?.keyid}`
+                    functionalityId: {
+                        S: `${pathParameters.functionalityId}`
                     }
                 },
                 tableName: constants.TBL_PROJECTS
@@ -33,9 +30,9 @@ exports.doAction = async function (event, _context) {
             if (!response) {
                 return globalException.buildNotFoundError({});
             }
-            const logs = [];
+            let logs = [];
             if (response.logs.L.length > 0) {
-                response.logs.L.map(m => ({
+                logs = response.logs.L.map(m => ({
                     id: m.M.id.S,
                     comments: m.M.comments.S,
                     startDate: m.M.startDate.S,

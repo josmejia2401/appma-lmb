@@ -9,7 +9,7 @@ resource "aws_apigatewayv2_integration" "lambda_handler" {
 
 resource "aws_apigatewayv2_route" "post_handler" {
   api_id             = data.aws_apigatewayv2_api.selected.id
-  route_key          = "GET /api/v1/${var.domain}/{id}"
+  route_key          = "GET /api/v1/${var.domain}/{id}/{functionalityId}"
   target             = "integrations/${aws_apigatewayv2_integration.lambda_handler.id}"
   authorization_type = "CUSTOM"
   authorizer_id      = var.authorizer_id

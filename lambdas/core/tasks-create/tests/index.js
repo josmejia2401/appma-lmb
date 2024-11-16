@@ -6,7 +6,20 @@ async function test() {
         },
         body: JSON.stringify({
             name: 'name',
-            description: 'description'
+            description: 'description',
+            functionalityId: '116028609488954',
+            logs: [
+                {
+                    comments: 'comments',
+                    startDate: new Date().toISOString(),
+                    endDate: new Date().toISOString(),
+                    interruptionTime: 10,
+                    deltaTime: 1,
+                    status: 1,
+                    phase: 1,
+                    createdAt: new Date().toISOString()
+                }
+            ]
         })
     };
     const context = {

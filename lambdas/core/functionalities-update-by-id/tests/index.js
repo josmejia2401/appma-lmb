@@ -10,8 +10,12 @@ async function test() {
         body: JSON.stringify({
             name: 'nombre de la empresa o administrador',
             description: 'lastName',
-            status: 1
-        })
+            status: 1,
+            projectId: '116016571740733'
+        }),
+        pathParameters: {
+            id: '116028609488954'
+        }
     };
     const context = {
         awsRequestId: "1"

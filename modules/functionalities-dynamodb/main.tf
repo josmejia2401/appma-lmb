@@ -2,7 +2,7 @@ resource "aws_dynamodb_table" "customers-dynamodb-table" {
   name         = local.table_name
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "id"
-  range_key    = "functionalityId"
+  range_key    = "projectId"
 
   # id (hash) del cliente a crear
   attribute {
@@ -12,7 +12,7 @@ resource "aws_dynamodb_table" "customers-dynamodb-table" {
 
   # id del cliente, al cual se asocia el cliente (customers)
   attribute {
-    name = "functionalityId"
+    name = "projectId"
     type = "S"
   }
 

@@ -59,9 +59,9 @@ exports.doAction = async function (event, _context) {
                     tableName: constants.TBL_PROJECTS
                 }, options);
                 if (body.logs.modifyItem !== undefined && body.logs.modifyItem !== null) {
-                    const index = response.logs.L.findIndex(m => m.M.id === body.logs.modifyItem.id);
-                    expressionAttributeNames["#modifyItemName"] = "logs";
-                    expressionAttributeValues[":modifyItemValue"] = {
+                    const index = response.logs.L.findIndex(m => m.M.id.S === body.logs.modifyItem.id);
+                    expressionAttributeNames["#logsName"] = "logs";
+                    expressionAttributeValues[":logsValue"] = {
                         M: {
                             id: { S: `${body.logs.modifyItem.id}` },
                             comments: { S: `${body.logs.modifyItem.comments}` },
@@ -73,29 +73,31 @@ exports.doAction = async function (event, _context) {
                             phase: { N: `${body.logs.modifyItem.phase}` },
                         }
                     };
-                    updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #modifyItemName[${index}] = :modifyItemValue`;
-                }
-                if (body.logs.addItem !== undefined && body.logs.addItem !== null) {
-                    expressionAttributeNames["#addItemName"] = "logs";
-                    expressionAttributeValues[":addItemValue"] = {
-                        M: {
-                            id: { S: `${commonUtils.buildUuid()}` },
-                            comments: { S: `${body.logs.addItem.comments}` },
-                            startDate: { S: `${body.logs.addItem.startDate}` },
-                            endDate: { S: `${body.logs.addItem.endDate}` },
-                            interruptionTime: { N: `${body.logs.addItem.interruptionTime}` },
-                            deltaTime: { N: `${body.logs.addItem.deltaTime}` },
-                            status: { N: `${body.logs.addItem.status}` },
-                            phase: { N: `${body.logs.addItem.phase}` },
-                            createdAt: { S: `${new Date().toISOString()}` },
-                        }
+                    updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #logsName[${index}] = :logsValue`;
+                } else if (body.logs.addItem !== undefined && body.logs.addItem !== null) {
+                    expressionAttributeNames["#logsName"] = "logs";
+                    expressionAttributeValues[":logsValue"] = {
+                        L: [
+                            {
+                                M: {
+                                    id: { S: `${commonUtils.buildUuid()}` },
+                                    comments: { S: `${body.logs.addItem.comments}` },
+                                    startDate: { S: `${body.logs.addItem.startDate}` },
+                                    endDate: { S: `${body.logs.addItem.endDate}` },
+                                    interruptionTime: { N: `${body.logs.addItem.interruptionTime}` },
+                                    deltaTime: { N: `${body.logs.addItem.deltaTime}` },
+                                    status: { N: `${body.logs.addItem.status}` },
+                                    phase: { N: `${body.logs.addItem.phase}` },
+                                    createdAt: { S: `${new Date().toISOString()}` },
+                                }
+                            }
+                        ]
                     };
-                    updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #addItemName = list_append(#addItemName, :addItemValue)`;
-                }
-                if (body.logs.deleteItem !== undefined && body.logs.deleteItem !== null) {
-                    const index = response.logs.L.findIndex(m => m.M.id === body.logs.deleteItem.id);
-                    expressionAttributeNames["#deleteItemName"] = "logs";
-                    updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} REMOVE #addItemName[${index}]`;
+                    updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #logsName = list_append(#logsName, :logsValue)`;
+                } else if (body.logs.deleteItem !== undefined && body.logs.deleteItem !== null) {
+                    const index = response.logs.L.findIndex(m => m.M.id.S === body.logs.deleteItem.id);
+                    expressionAttributeNames["#logsName"] = "logs";
+                    updateExpression = `${updateExpression} REMOVE #logsName[${index}]`;
                 }
             }
             await dynamoDBRepository.updateItem({
@@ -103,15 +105,15 @@ exports.doAction = async function (event, _context) {
                     id: {
                         S: `${pathParameters.id}`
                     },
-                    userId: {
-                        S: `${tokenDecoded?.keyid}`
+                    functionalityId: {
+                        S: `${body.functionalityId}`
                     }
                 },
                 expressionAttributeNames: expressionAttributeNames,
                 expressionAttributeValues: expressionAttributeValues,
                 updateExpression: updateExpression,
                 conditionExpression: undefined,
-                filterExpression: "attribute_exists(userId)",
+                filterExpression: "attribute_exists(functionalityId)",
                 tableName: constants.TBL_PROJECTS
             }, options);
             return responseHandler.successResponse(body);

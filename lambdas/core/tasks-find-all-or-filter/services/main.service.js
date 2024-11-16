@@ -69,9 +69,9 @@ exports.doAction = async function (event, _context) {
             tableName: constants.TBL_PROJECTS
         }, options);
         response.results = response.results.map(p => {
-            const logs = [];
+            let logs = [];
             if (p.logs.L.length > 0) {
-                p.logs.L.map(m => ({
+                logs = p.logs.L.map(m => ({
                     id: m.M.id.S,
                     comments: m.M.comments.S,
                     startDate: m.M.startDate.S,
