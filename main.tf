@@ -40,6 +40,10 @@ module "functionalities_dynamodb" {
   source = "./modules/functionalities-dynamodb"
 }
 
+module "tasks_dynamodb" {
+  source = "./modules/tasks-dynamodb"
+}
+
 
 ####################
 # API GATEWAY
@@ -195,5 +199,61 @@ module "api_gateway_resources_functionalities_find_all_or_filter" {
   depends_on = [
     module.api_gateway,
     module.functionalities_dynamodb
+  ]
+}
+
+
+####################
+# API GATEWAY RESOURCES tasks
+####################
+
+
+module "api_gateway_resources_tasks_create" {
+  source        = "./modules/apigateway-resources-tasks-create"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.tasks_dynamodb
+  ]
+}
+
+module "api_gateway_resources_tasks_update" {
+  source        = "./modules/apigateway-resources-tasks-update"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.tasks_dynamodb
+  ]
+}
+
+module "api_gateway_resources_tasks_delete" {
+  source        = "./modules/apigateway-resources-tasks-delete"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.tasks_dynamodb
+  ]
+}
+
+module "api_gateway_resources_tasks_find_by_id" {
+  source        = "./modules/apigateway-resources-tasks-find-by-id"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.tasks_dynamodb
+  ]
+}
+
+module "api_gateway_resources_tasks_find_all_or_filter" {
+  source        = "./modules/apigateway-resources-tasks-find-all-or-filter"
+  api_id        = module.api_gateway.api_id # < output of module.api_gateway
+  authorizer_id = module.api_gateway_resources_security_authorizer.authorizer_id
+  depends_on = [
+    module.api_gateway,
+    module.tasks_dynamodb
   ]
 }
