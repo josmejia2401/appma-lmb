@@ -73,14 +73,14 @@ exports.doAction = async function (event, _context) {
             if (p.logs.L.length > 0) {
                 logs = p.logs.L.map(m => ({
                     id: m.M.id.S,
-                    comments: m.M.comments.S,
-                    startDate: m.M.startDate.S,
-                    endDate: m.M.endDate.S,
-                    interruptionTime: Number(m.M.interruptionTime.N),
-                    deltaTime: Number(m.M.deltaTime.N),
-                    status: Number(m.M.status.N),
-                    phase: Number(m.M.phase.N),
-                    createdAt: m.M.createdAt.S,
+                    comments: m.M.comments?.S,
+                    startDate: m.M.startDate?.S,
+                    endDate: m.M.endDate?.S,
+                    interruptionTime: Number(m.M.interruptionTime?.N),
+                    deltaTime: Number(m.M.deltaTime?.N),
+                    status: Number(m.M.status?.N),
+                    phase: Number(m.M.phase?.N),
+                    createdAt: m.M.createdAt?.S,
                 }));
             }
             return {

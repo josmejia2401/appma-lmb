@@ -1,5 +1,4 @@
 const {
-    JWT,
     logger,
     commonUtils,
     dynamoDBRepository,
@@ -18,8 +17,6 @@ exports.doAction = async function (event, _context) {
         if (event.pathParameters !== undefined && event.pathParameters !== null) {
             const pathParameters = event.pathParameters;
             const body = JSON.parse(event.body);
-            const authorization = commonUtils.getAuthorization(event);
-            const tokenDecoded = JWT.decodeToken(authorization);
             const options = {
                 requestId: traceID
             };
