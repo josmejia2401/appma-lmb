@@ -8,12 +8,12 @@ async function test() {
             id: "116028638450086"
         },
         body: JSON.stringify({
-            name: 'name',
-            description: 'description',
+            //name: 'name',
+            //description: 'description',
             functionalityId: '116028609488954',
-            status: 1,
+            //status: 1,
             logs: {
-                addItem: {
+                deleteItem: {
                     id: '116028638448863',
                     comments: 'xxxxxx',
                     startDate: new Date().toISOString(),

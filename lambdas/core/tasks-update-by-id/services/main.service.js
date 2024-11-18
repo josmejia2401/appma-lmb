@@ -94,9 +94,10 @@ exports.doAction = async function (event, _context) {
                 } else if (body.logs.deleteItem !== undefined && body.logs.deleteItem !== null) {
                     const index = response.logs.L.findIndex(m => m.M.id.S === body.logs.deleteItem.id);
                     expressionAttributeNames["#logsName"] = "logs";
-                    updateExpression = `${updateExpression} REMOVE #logsName[${index}]`;
+                    updateExpression = `${updateExpression.length > 4 ? updateExpression + ', ' : ''} REMOVE #logsName[${index}]`;
                 }
             }
+            console.log("ZZZZZZZZZZZZ", updateExpression);
             await dynamoDBRepository.updateItem({
                 key: {
                     id: {
@@ -106,8 +107,8 @@ exports.doAction = async function (event, _context) {
                         S: `${body.functionalityId}`
                     }
                 },
-                expressionAttributeNames: expressionAttributeNames,
-                expressionAttributeValues: expressionAttributeValues,
+                expressionAttributeNames:  Object.keys(expressionAttributeNames).length > 0 ? expressionAttributeNames : undefined,
+                expressionAttributeValues:  Object.keys(expressionAttributeValues).length > 0 ? expressionAttributeValues : undefined,
                 updateExpression: updateExpression,
                 conditionExpression: undefined,
                 filterExpression: "attribute_exists(functionalityId)",
