@@ -47,12 +47,19 @@ exports.doAction = async function (event, _context) {
             expressionAttributeNames["#status"] = "status";
             filterExpression = `${filterExpression} AND #status=:status`;
         }
+        if (queryStringParameters && queryStringParameters.projectId) {
+            expressionAttributeValues[":projectId"] = {
+                "S": `${queryStringParameters.projectId}`
+            };
+            expressionAttributeNames["#projectId"] = "projectId";
+            filterExpression = `${filterExpression} AND #projectId=:projectId`;
+        }
 
         let lastEvaluatedKey = undefined;
-        if (queryStringParameters && queryStringParameters.userId && queryStringParameters.id) {
+        if (queryStringParameters && queryStringParameters.projectId && queryStringParameters.id) {
             lastEvaluatedKey = {
-                userId: {
-                    S: queryStringParameters.userId
+                projectId: {
+                    S: queryStringParameters.projectId
                 },
                 id: {
                     S: queryStringParameters.id
@@ -71,6 +78,7 @@ exports.doAction = async function (event, _context) {
         response.results = response.results.map(p => ({
             id: p.id?.S,
             userId: p.userId?.S,
+            projectId: p.projectId?.S,
             name: p.name?.S,
             description: p.description?.S,
             status: Number(p.status?.N),

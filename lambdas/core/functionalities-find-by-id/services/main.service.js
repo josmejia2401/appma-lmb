@@ -33,6 +33,7 @@ exports.doAction = async function (event, _context) {
             return responseHandler.successResponse({
                 id: response.id?.S,
                 userId: response.userId?.S,
+                projectId: response.projectId?.S,
                 name: response.name?.S,
                 description: response.description?.S,
                 status: Number(response.status?.N),
