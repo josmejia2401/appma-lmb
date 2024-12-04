@@ -4,4 +4,10 @@ exports.schema = josmejia2401js.joi.object({
     description: josmejia2401js.joi.string().allow("").max(1000).optional(),
     status: josmejia2401js.joi.number().required(),
     projectId: josmejia2401js.joi.string().max(30).required(),
+    languages: josmejia2401js.joi.array().items(josmejia2401js.joi.object({
+        id: josmejia2401js.joi.string(),
+    })).optional(),
+    technologies: josmejia2401js.joi.array().items(josmejia2401js.joi.object({
+        id: josmejia2401js.joi.string(),
+    })).optional()
 });

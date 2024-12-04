@@ -97,7 +97,6 @@ exports.doAction = async function (event, _context) {
                     updateExpression = `${updateExpression.length > 4 ? updateExpression + ', ' : ''} REMOVE #logsName[${index}]`;
                 }
             }
-            console.log("ZZZZZZZZZZZZ", updateExpression);
             await dynamoDBRepository.updateItem({
                 key: {
                     id: {

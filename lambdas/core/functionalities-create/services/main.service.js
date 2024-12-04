@@ -23,6 +23,29 @@ exports.doAction = async function (event, _context) {
                 requestId: traceID,
                 schema: undefined
             };
+            const technologies = [];
+            const languages = [];
+
+            if (body.technologies && body.technologies.length > 0) {
+                body.technologies.forEach(element => {
+                    technologies.push({
+                        M: {
+                            id: { S: `${element.id}` },
+                        }
+                    });
+                });
+            }
+
+            if (body.languages && body.languages.length > 0) {
+                body.languages.forEach(element => {
+                    languages.push({
+                        M: {
+                            id: { S: `${element.id}` },
+                        }
+                    });
+                });
+            }
+
             const response = await josmejia2401js.dynamoDBRepository.putItem({
                 tableName: constants.TBL_PROJECTS,
                 item: {
@@ -32,7 +55,13 @@ exports.doAction = async function (event, _context) {
                     name: { S: `${body.name}` },
                     description: { S: `${body.description}` },
                     status: { N: `${josmejia2401js.listValues.findStatusById(1).id}` },
-                    createdAt: { S: `${new Date().toISOString()}` }
+                    createdAt: { S: `${new Date().toISOString()}` },
+                    languages: {
+                        L: languages
+                    },
+                    technologies: {
+                        L: technologies
+                    }
                 }
             }, options);
             return josmejia2401js.responseHandler.successResponse({
@@ -41,7 +70,9 @@ exports.doAction = async function (event, _context) {
                 name: response.name.S,
                 description: response.description.S,
                 status: Number(response.status.N),
-                createdAt: response.createdAt.S
+                createdAt: response.createdAt.S,
+                languages: response.languages?.L.map(p => ({ id: p.M.id.S })),
+                technologies: response.technologies?.L.map(p => ({ id: p.M.id.S }))
             });
         } else {
             return josmejia2401js.globalException.buildBadRequestError('Al parecer la solicitud no es correcta. Intenta nuevamente, por favor.');

@@ -44,6 +44,40 @@ exports.doAction = async function (event, _context) {
                 expressionAttributeValues[":status"] = { "N": `${listValues.findStatusById(body.status).id}` };
                 updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #status=:status`;
             }
+
+            if (body.technologies && body.technologies.length > 0) {
+                const technologies = [];
+                body.technologies.forEach(element => {
+                    technologies.push({
+                        M: {
+                            id: { S: `${element.id}` },
+                        }
+                    });
+                });
+                expressionAttributeNames["#technologies"] = "technologies";
+                expressionAttributeValues[":technologies"] = {
+                    L: technologies
+                }
+                updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #technologies=:technologies`;
+            }
+
+            if (body.languages && body.languages.length > 0) {
+                const languages = [];
+                body.languages.forEach(element => {
+                    languages.push({
+                        M: {
+                            id: { S: `${element.id}` },
+                        }
+                    });
+                });
+                expressionAttributeNames["#languages"] = "languages";
+                expressionAttributeValues[":languages"] = {
+                    L: languages
+                }
+                updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #languages=:languages`;
+            }
+
+
             await dynamoDBRepository.updateItem({
                 key: {
                     id: {

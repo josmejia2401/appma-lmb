@@ -38,6 +38,8 @@ exports.doAction = async function (event, _context) {
                 description: response.description?.S,
                 status: Number(response.status?.N),
                 createdAt: response.createdAt?.S,
+                languages: response.languages?.L.map(p => ({ id: p?.M?.id.S })),
+                technologies: response.technologies?.L.map(p => ({ id: p?.M?.id.S }))
             });
         } else {
             return globalException.buildBadRequestError('Al parecer la solicitud no es correcta. Intenta nuevamente, por favor.');

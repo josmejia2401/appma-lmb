@@ -83,6 +83,8 @@ exports.doAction = async function (event, _context) {
             description: p.description?.S,
             status: Number(p.status?.N),
             createdAt: p.createdAt?.S,
+            languages: p.languages?.L.map(pp => ({ id: pp?.M?.id.S })),
+            technologies: p.technologies?.L.map(pp => ({ id: pp?.M?.id.S }))
         }));
         return responseHandler.successResponse(response);
     } catch (err) {
