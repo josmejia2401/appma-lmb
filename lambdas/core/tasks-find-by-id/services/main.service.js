@@ -53,6 +53,7 @@ exports.doAction = async function (event, _context) {
                 status: Number(response.status?.N),
                 logs: logs,
                 createdAt: response.createdAt?.S,
+                itemType: response.itemType?.N,
             });
         } else {
             return globalException.buildBadRequestError('Al parecer la solicitud no es correcta. Intenta nuevamente, por favor.');

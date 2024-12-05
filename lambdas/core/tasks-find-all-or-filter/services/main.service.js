@@ -92,6 +92,7 @@ exports.doAction = async function (event, _context) {
                 status: Number(p.status?.N),
                 logs: logs,
                 createdAt: p.createdAt?.S,
+                itemType: p.itemType?.N,
             }
         });
         return responseHandler.successResponse(response);

@@ -54,7 +54,8 @@ exports.doAction = async function (event, _context) {
                     createdAt: { S: `${new Date().toISOString()}` },
                     logs: {
                         L: logs
-                    }
+                    },
+                    itemType: { N: `${body.itemType}` },
                 }
             }, options);
             return josmejia2401js.responseHandler.successResponse({
@@ -64,7 +65,8 @@ exports.doAction = async function (event, _context) {
                 description: response.description.S,
                 status: Number(response.status.N),
                 createdAt: response.createdAt.S,
-                logs: response.logs.L
+                logs: response.logs.L,
+                itemType: response.itemType?.N,
             });
         } else {
             return josmejia2401js.globalException.buildBadRequestError('Al parecer la solicitud no es correcta. Intenta nuevamente, por favor.');

@@ -43,6 +43,11 @@ exports.doAction = async function (event, _context) {
                 expressionAttributeValues[":status"] = { "N": `${listValues.findStatusById(body.status).id}` };
                 updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #status=:status`;
             }
+            if (body.itemType !== undefined && body.itemType !== null) {
+                expressionAttributeNames["#itemType"] = "itemType";
+                expressionAttributeValues[":itemType"] = { "N": `${body.itemType}` };
+                updateExpression = `${updateExpression} ${updateExpression.length > 4 ? ', ' : ' '} #itemType=:itemType`;
+            }
             if (body.logs !== undefined && body.logs != null) {
                 const response = await dynamoDBRepository.getItem({
                     key: {
@@ -106,8 +111,8 @@ exports.doAction = async function (event, _context) {
                         S: `${body.functionalityId}`
                     }
                 },
-                expressionAttributeNames:  Object.keys(expressionAttributeNames).length > 0 ? expressionAttributeNames : undefined,
-                expressionAttributeValues:  Object.keys(expressionAttributeValues).length > 0 ? expressionAttributeValues : undefined,
+                expressionAttributeNames: Object.keys(expressionAttributeNames).length > 0 ? expressionAttributeNames : undefined,
+                expressionAttributeValues: Object.keys(expressionAttributeValues).length > 0 ? expressionAttributeValues : undefined,
                 updateExpression: updateExpression,
                 conditionExpression: undefined,
                 filterExpression: "attribute_exists(functionalityId)",

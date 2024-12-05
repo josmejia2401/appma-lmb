@@ -6,6 +6,14 @@ const status = [
     {
         id: 2,
         name: 'INACTIVO'
+    },
+    {
+        id: 3,
+        name: 'FINALIZADO'
+    },
+    {
+        id: 4,
+        name: 'PENDIENTE'
     }
 ];
 exports.status = status;
